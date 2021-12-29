@@ -17,3 +17,11 @@ depcomp
 install-sh
 missing
 
+menuconfig-*.tar.gz
+menuconfig-*/
+src/conf
+test-driver
+tests/test-suite.log
+tests/test.sh.log
+tests/test.sh.trs
+

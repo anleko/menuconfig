@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([menuconfig], [0.4.18], [n.pechenkin@mail.ru])
+AC_INIT([menuconfig], [0.4.18-wmo-1], [andy.koszela@westermo.com])
 AC_CONFIG_SRCDIR([src/mconf.c])
 
 AC_CANONICAL_HOST
@@ -22,10 +22,8 @@ if test "x$cross_compiling" = "xyes"; then
         ;;
     esac
 fi
-AC_CHECK_LIB([ncurses], [delwin])
 
-# Checks for header files.
-AC_CHECK_HEADERS([ncurses.h])
+PKG_CHECK_MODULES([ncurses], [ncurses >= 1.00])
 
 # Checks for library functions.
 AC_CHECK_FUNCS([strndup])
