@@ -16,7 +16,7 @@ configure
 depcomp
 install-sh
 missing
-
+build-aux
 stamp-h1
 config.h*
 
