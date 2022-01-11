@@ -17,6 +17,9 @@ depcomp
 install-sh
 missing
 
+stamp-h1
+config.h*
+
 menuconfig-*.tar.gz
 menuconfig-*/
 src/conf
@@ -24,4 +27,3 @@ test-driver
 tests/test-suite.log
 tests/test.sh.log
 tests/test.sh.trs
-
