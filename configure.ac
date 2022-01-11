@@ -1,17 +1,15 @@
-AC_INIT([menuconfig], [0.4.18-wmo-1], [andy.koszela@westermo.com])
+AC_INIT([menuconfig], [0.4.18-wmo-3], [andy.koszela@westermo.com])
 AC_CONFIG_AUX_DIR(build-aux)
 AM_INIT_AUTOMAKE([foreign subdir-objects])
 AM_SILENT_RULES([yes])
 
 AC_CONFIG_SRCDIR([src/mconf.c])
-AC_CONFIG_HEADER([config.h])
 AC_CONFIG_FILES([Makefile src/Makefile tests/Makefile])
 
 # Checks for programs.
 AC_PROG_CC
-AC_PROG_LN_S
-AC_PROG_INSTALL
-AC_PROG_MKDIR_P
+AC_PROG_YACC
+AC_PROG_LEX
 
 AC_CHECK_FUNCS([strndup])
 
