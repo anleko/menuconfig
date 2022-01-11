@@ -1,34 +1,42 @@
-# Process this file with autoconf to produce a configure script.
-
-AC_PREREQ([2.69])
 AC_INIT([menuconfig], [0.4.18-wmo-1], [andy.koszela@westermo.com])
-AC_CONFIG_SRCDIR([src/mconf.c])
+AC_CONFIG_AUX_DIR(build-aux)
+AM_INIT_AUTOMAKE([foreign subdir-objects])
+AM_SILENT_RULES([yes])
 
-AC_CANONICAL_HOST
-AC_CANONICAL_BUILD
+AC_CONFIG_SRCDIR([src/mconf.c])
+AC_CONFIG_HEADER([config.h])
+AC_CONFIG_FILES([Makefile src/Makefile tests/Makefile])
 
 # Checks for programs.
 AC_PROG_CC
-AM_INIT_AUTOMAKE([subdir-objects])
-AC_PROG_YACC
-AC_PROG_LEX
+AC_PROG_LN_S
+AC_PROG_INSTALL
+AC_PROG_MKDIR_P
 
-# Checks for libraries.
-CROSS_COMPILE=
-if test "x$cross_compiling" = "xyes"; then
-    case "${host}" in
-    *-mingw*)
-	AC_CHECK_LIB([gnurx], [regexec])
-        ;;
-    esac
-fi
-
-PKG_CHECK_MODULES([ncurses], [ncurses >= 1.00])
-
-# Checks for library functions.
 AC_CHECK_FUNCS([strndup])
 
-AC_CONFIG_FILES([Makefile
-                 src/Makefile
-                 tests/Makefile])
+PKG_PROG_PKG_CONFIG
+AC_MSG_CHECKING([whether NCURSES_CONFIG_PATH is set])
+AC_ARG_VAR(NCURSES_CONFIG_PATH, [Path to ncurses*-config, if available])
+AS_IF([test "X$NCURSES_CONFIG_PATH" = "X"], [
+    AC_MSG_RESULT([no])
+    AC_MSG_NOTICE([checking for ncurses using pkg-config instead])
+    PKG_CHECK_MODULES([ncurses], [ncurses >= 1.00])
+], [
+    AC_MSG_RESULT([yes, $NCURSES_CONFIG_PATH])
+    AC_MSG_CHECKING([whether $NCURSES_CONFIG_PATH is executable])
+    AS_IF([test ! -x $NCURSES_CONFIG_PATH], [
+        AC_MSG_RESULT([no])
+        AC_MSG_ERROR([NCURSES_CONFIG_PATH is provided but not executable])
+    ], [
+        AC_MSG_RESULT([yes])
+        ncurses_libs=$($NCURSES_CONFIG_PATH --libs)
+        ncurses_cflags=$($NCURSES_CONFIG_PATH --cflags)
+        AC_MSG_NOTICE([ncurses cflags: $ncurses_cflags])
+        AC_MSG_NOTICE([ncurses libs:   $ncurses_libs])
+        ncurses_CFLAGS=$ncurses_cflags
+        ncurses_LIBS=$ncurses_libs
+    ])
+])
+
 AC_OUTPUT

@@ -9,5 +9,4 @@ zconf.lex.c : zconf.l
 	$(LEX) -o$@ -L $<
 
 mconf_CFLAGS = $(ncurses_CFLAGS)
-mconf_LDFLAGS = -static
 mconf_LDADD  = $(ncurses_LIBS)
